@@ -4,6 +4,9 @@
 // hint.
 
 // I AM NOT DONE
+fn call_me() {
+    println!("hehe");
+}
 
 fn main() {
     call_me();
