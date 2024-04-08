@@ -8,6 +8,6 @@
 // I AM NOT DONE
 
 fn main() {
-    let x: u32 = 5;
+    let x = 5;
     println!("x has the value {}", x);
 }
