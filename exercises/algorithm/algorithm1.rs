@@ -2,7 +2,6 @@
     single linked list merge
     This problem requires you to merge two ordered singly linked lists into one ordered singly linked list
 */
-// I AM NOT DONE
 
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
@@ -66,13 +65,51 @@ impl<T> LinkedList<T> {
             },
         }
     }
-    pub fn merge(list_a: LinkedList<T>, list_b: LinkedList<T>) -> Self {
-        //TODO
-        Self {
+}
+
+impl<T: std::cmp::Ord + std::cmp::PartialEq + Clone> LinkedList<T> {
+    pub fn merge(mut list_a: LinkedList<T>, mut list_b: LinkedList<T>) -> Self {
+        let mut list = Self {
             length: 0,
             start: None,
             end: None,
+        };
+        let mut node_a = list_a.start;
+        let mut node_b = list_b.start;
+        while node_a.is_some() && node_b.is_some() {
+            let val_a = unsafe { (*node_a.unwrap().as_ptr()).val.clone() };
+            let val_b = unsafe { (*node_b.unwrap().as_ptr()).val.clone() };
+            if val_a < val_b {
+                list.add(val_a);
+                node_a = unsafe { (*node_a.unwrap().as_ptr()).next };
+            } else {
+                list.add(val_b);
+                node_b = unsafe { (*node_b.unwrap().as_ptr()).next };
+            }
         }
+        while node_a.is_some() {
+            let val_a = unsafe { (*node_a.unwrap().as_ptr()).val.clone() };
+            list.add(val_a);
+            node_a = unsafe { (*node_a.unwrap().as_ptr()).next };
+        }
+        while node_b.is_some() {
+            let val_b = unsafe { (*node_b.unwrap().as_ptr()).val.clone() };
+            list.add(val_b);
+            node_b = unsafe { (*node_b.unwrap().as_ptr()).next };
+        }
+        list
+
+        // let v1 = (0..).map(|i| list_a.get(i)).take_while(|x| x.is_some()).map(|x| x.unwrap()).collect::<Vec<_>>();
+        // let v2 = (0..).map(|i| list_b.get(i)).take_while(|x| x.is_some()).map(|x| x.unwrap()).collect::<Vec<_>>();
+        // v1.extend(v2);
+        // v1.sort();
+        // let mut list = Self {
+        //     length: 0,
+        //     start: None,
+        //     end: None,
+        // };
+        // v1.into_iter().for_each(|x| list.add(*x));
+        // list
     }
 }
 
